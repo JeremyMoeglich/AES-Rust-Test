@@ -2,26 +2,34 @@ lockfileVersion: 5.4
 
 specifiers:
   '@sveltejs/adapter-auto': next
+  '@sveltejs/adapter-node': 1.0.0-next.78
+  '@sveltejs/adapter-static': 1.0.0-next.34
   '@sveltejs/kit': next
   '@typescript-eslint/eslint-plugin': ^5.27.0
   '@typescript-eslint/parser': ^5.27.0
-  aeslib: link:rust-aes\pkg
   eslint: ^8.16.0
   eslint-config-prettier: ^8.3.0
   eslint-plugin-svelte3: ^4.0.0
+  functional-utilities: ^1.15.1
   prettier: ^2.6.2
   prettier-plugin-svelte: ^2.7.0
   svelte: ^3.44.0
   svelte-check: ^2.7.1
   svelte-preprocess: ^4.10.6
   tslib: ^2.3.1
+  type-fest: ^2.13.1
   typescript: ^4.7.2
+  uint8-to-base64: ^0.2.0
 
 dependencies:
-  aeslib: link:rust-aes/pkg
+  functional-utilities: 1.15.1
+  type-fest: 2.13.1
+  uint8-to-base64: 0.2.0
 
 devDependencies:
   '@sveltejs/adapter-auto': 1.0.0-next.51
+  '@sveltejs/adapter-node': 1.0.0-next.78
+  '@sveltejs/adapter-static': 1.0.0-next.34
   '@sveltejs/kit': 1.0.0-next.352_svelte@3.48.0
   '@typescript-eslint/eslint-plugin': 5.29.0_qqmbkyiaixvppdwswpytuf2hgm
   '@typescript-eslint/parser': 5.29.0_b5e7v2qnwxfo6hmiq56u52mz3e
@@ -161,6 +169,18 @@ packages:
       '@iarna/toml': 2.2.5
       esbuild: 0.14.47
       set-cookie-parser: 2.5.0
+      tiny-glob: 0.2.9
+    dev: true
+
+  /@sveltejs/adapter-node/1.0.0-next.78:
+    resolution: {integrity: sha512-TXB5Ii0z/7o1B05p/YLsS4t+JUHFHWBzFv1U16TKvM3HMbMUJIx+AhpM2WJfDX8HtAyfd1m9OawGoUB+1ed24A==}
+    dependencies:
+      tiny-glob: 0.2.9
+    dev: true
+
+  /@sveltejs/adapter-static/1.0.0-next.34:
+    resolution: {integrity: sha512-XjuMhemme5z0L/B2nTZpA6k+RJjF+b6L96ts6gIQ6ixiCzJQSbBqJhrrBYBCaeLAKvdUMoGEmX8m862JhKjRFg==}
+    dependencies:
       tiny-glob: 0.2.9
     dev: true
 
@@ -1115,6 +1135,12 @@ packages:
     resolution: {integrity: sha512-dsKNQNdj6xA3T+QlADDA7mOSlX0qiMINjn0cgr+eGHGsbSHzTabcIogz2+p/iqP1Xs6EP/sS2SbqH+brGTbq0g==}
     dev: true
 
+  /functional-utilities/1.15.1:
+    resolution: {integrity: sha512-vJ2ui/hv5NEk7BeFixOyt+uNCLYFr2le4benvePJ4Om1POYmVDsRMw0i4ABhISHbSGoC+RQzbJQsFNp/mmjdxw==}
+    dependencies:
+      lodash-es: 4.17.21
+    dev: false
+
   /gauge/2.7.4:
     resolution: {integrity: sha512-14x4kjc6lkD3ltw589k0NrPD6cCNTD6CWoVUNpB85+DrtONoZn+Rug6xZU5RvSC4+TZPxA5AnBibQYAvZn41Hg==}
     dependencies:
@@ -1348,6 +1374,10 @@ packages:
       prelude-ls: 1.2.1
       type-check: 0.4.0
     dev: true
+
+  /lodash-es/4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
@@ -2152,11 +2182,20 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /type-fest/2.13.1:
+    resolution: {integrity: sha512-hXYyrPFwETT2swFLHeoKtJrvSF/ftG/sA15/8nGaLuaDGfVAaq8DYFpu4yOyV4tzp082WqnTEoMsm3flKMI2FQ==}
+    engines: {node: '>=12.20'}
+    dev: false
+
   /typescript/4.7.4:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
+
+  /uint8-to-base64/0.2.0:
+    resolution: {integrity: sha512-r13jrghEYZAN99GeYpEjM107DOxqB65enskpwce8rRHVAGEtaWmsF5GqoGdPMf8DIXc9XyAJTdvlvRZi4LsszA==}
+    dev: false
 
   /uri-js/4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}

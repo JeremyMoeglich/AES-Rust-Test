@@ -5,8 +5,8 @@
 		"dev": "svelte-kit dev",
 		"build": "npm run build-rust && npm run build-web",
 		"build-web": "svelte-kit build",
-		"build-rust": "wasm-pack build ./rust-aes --target web && pnpm install ./rust-aes/pkg",
-		"setup": "cargo install wasm-pack",
+		"build-rust": "wasm-pack build ./rust-aes --target web --out-dir ../src/lib/aeslib",
+		"postinstall": "cargo install wasm-pack",
 		"package": "svelte-kit package",
 		"preview": "svelte-kit preview",
 		"prepare": "svelte-kit sync",
@@ -16,10 +16,14 @@
 		"format": "prettier --write --plugin-search-dir=. ."
 	},
 	"dependencies": {
-		"aeslib": "link:rust-aes\\pkg"
+		"functional-utilities": "^1.15.1",
+		"type-fest": "^2.13.1",
+		"uint8-to-base64": "^0.2.0"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/adapter-node": "1.0.0-next.78",
+		"@sveltejs/adapter-static": "1.0.0-next.34",
 		"@sveltejs/kit": "next",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
 		"@typescript-eslint/parser": "^5.27.0",

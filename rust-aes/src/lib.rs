@@ -33,13 +33,20 @@ pub fn decrypt(password: &str, ciphertext: &[u8], size_string: &str) -> String {
     plaintext
 }
 
+#[wasm_bindgen]
+pub fn get_cipher(password: &str, size_string: &str) -> String {
+    let size = AesSize::parse(&size_string).expect("Invalid AES size");
+    let cipher = aes::Key::from_password(password, size);
+    cipher.to_string()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn test_encrypt_decrypt() {
-        let password = "password";
+        let password = "passwrd";
         let plaintext = "plaintext";
         let size_string = "128";
         let ciphertext = encrypt(password, plaintext, size_string);

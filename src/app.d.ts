@@ -8,3 +8,8 @@ declare namespace App {
 	// interface Session {}
 	// interface Stuff {}
 }
+
+declare module 'uint8-to-base64' {
+	function encode(uint8: Uint8Array): string;
+	function decode(base64: string): Uint8Array;
+}

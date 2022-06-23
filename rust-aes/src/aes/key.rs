@@ -1,6 +1,9 @@
 use std::fmt::Display;
 
-use super::{aes_size::AesSize, sbox::{SBOX, INV_SBOX}};
+use super::{
+    aes_size::AesSize,
+    sbox::{INV_SBOX, SBOX},
+};
 
 pub struct Key {
     pub size: AesSize,
@@ -23,7 +26,7 @@ impl Clone for Key {
 impl Display for Key {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mut text = String::new();
-        for row_index in 0..self.col_amount() {
+        for row_index in 0..4 {
             let row = self.get_row(row_index);
             for byte in row.iter() {
                 text.push_str(&format!("{:02x} ", byte));
@@ -244,4 +247,15 @@ pub fn inv_sub_bytes(row: &[u8]) -> Vec<u8> {
         new_row.push(INV_SBOX.get(*v));
     }
     new_row
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_show() {
+        let key = Key::from_password("password", AesSize::S256);
+        println!("{}", key);
+    }
 }
