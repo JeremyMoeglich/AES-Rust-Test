@@ -13,3 +13,14 @@ impl Clone for AesSize {
         }
     }
 }
+
+impl AesSize {
+    pub fn parse(size: &str) -> Option<AesSize> {
+        match size {
+            "128" => Some(AesSize::S128),
+            "192" => Some(AesSize::S192),
+            "256" => Some(AesSize::S256),
+            _ => None,
+        }
+    }
+}

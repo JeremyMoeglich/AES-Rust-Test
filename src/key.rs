@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use crate::{sbox::SBOX, aes_size::AesSize};
+use crate::{aes_size::AesSize, sbox::{SBOX, INV_SBOX}};
 
 pub struct Key {
     pub size: AesSize,
@@ -35,6 +35,70 @@ impl Display for Key {
 }
 
 impl Key {
+    pub fn from_vec(key: Vec<[u8; 4]>) -> Self {
+        let size = match key.len() {
+            4 => AesSize::S128,
+            6 => AesSize::S192,
+            8 => AesSize::S256,
+            _ => panic!("Invalid key length"),
+        };
+        Key { size, key }
+    }
+
+    pub fn from_bytes(bytes: &[u8]) -> Self {
+        let mut key = Vec::new();
+        for col_index in 0..bytes.len() / 4 {
+            let mut col = [0; 4];
+            for row_index in 0..4 {
+                col[row_index] = bytes[col_index * 4 + row_index];
+            }
+            key.push(col);
+        }
+        Key::from_vec(key)
+    }
+
+    pub fn to_bytes(&self) -> Vec<u8> {
+        let mut bytes = Vec::new();
+        for col_index in 0..self.col_amount() {
+            let col = self.get_col(col_index as isize);
+            for row_index in 0..4 {
+                bytes.push(col[row_index]);
+            }
+        }
+        bytes
+    }
+
+    pub fn from_password(password: &str, size: AesSize) -> Self {
+        let col_amount = match size {
+            AesSize::S128 => 4,
+            AesSize::S192 => 6,
+            AesSize::S256 => 8,
+        };
+
+        let mut key;
+        {
+            let mut cols = Vec::new();
+            for _ in 0..col_amount {
+                cols.push([0; 4]);
+            }
+            key = Key { size, key: cols };
+        }
+
+        let password_bytes = password.as_bytes();
+        let col_chunks = password_bytes.chunks(4).collect::<Vec<&[u8]>>();
+        let repeat_chunks = col_chunks.chunks(col_amount);
+        for repeat in repeat_chunks {
+            for col_index in 0..repeat.len() {
+                let mut col = key.get_col(col_index as isize);
+                for row_index in 0..repeat[col_index].len() {
+                    col[row_index] ^= repeat[col_index][row_index];
+                }
+                key.set_col(col_index, col);
+            }
+        }
+        key
+    }
+
     pub fn col_amount(&self) -> usize {
         self.validate_key();
         match self.size {
@@ -119,7 +183,7 @@ impl Key {
     }
 
     pub fn set_col(&mut self, index: usize, col: Vec<u8>) {
-        if col.len() != self.key.len() {
+        if col.len() != 4 {
             panic!("Invalid col length");
         }
         for i in 0..4 {
@@ -128,7 +192,7 @@ impl Key {
     }
 
     pub fn apply_all(&mut self, func: fn(&[u8]) -> Vec<u8>) {
-        for i in 0..self.key.len() {
+        for i in 0..self.col_amount() {
             self.apply_row(i, func);
         }
     }
@@ -170,6 +234,14 @@ pub fn sub_bytes(row: &[u8]) -> Vec<u8> {
     let mut new_row = vec![];
     for v in row {
         new_row.push(SBOX.get(*v));
+    }
+    new_row
+}
+
+pub fn inv_sub_bytes(row: &[u8]) -> Vec<u8> {
+    let mut new_row = vec![];
+    for v in row {
+        new_row.push(INV_SBOX.get(*v));
     }
     new_row
 }
