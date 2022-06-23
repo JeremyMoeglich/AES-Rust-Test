@@ -1,6 +1,5 @@
-use aes::{decrypt, encrypt, AesSize, Key};
+use aeslib::aes::{decrypt, encrypt, AesSize, Key};
 use clap::{arg, Command};
-use std::fmt::Debug;
 use std::io::Read;
 use std::path::PathBuf;
 
@@ -59,7 +58,7 @@ fn main() {
             file.read_to_string(&mut file_contents)
                 .expect("failed to read file");
             let cipher = Key::from_password(password, size);
-            let encrypted_data = encrypt(&cipher, &file_contents);
+            let encrypted_data = encrypt(&cipher, &file_contents).expect("failed to encrypt");
             std::fs::write(&out_file_path, encrypted_data).expect("failed to write file");
             println!("Encrypted data written to {:#?}", out_file_path);
         }
@@ -85,12 +84,10 @@ fn main() {
             file.read_to_end(&mut file_contents)
                 .expect("failed to read file");
             let cipher = Key::from_password(password, size);
-            let decrypted_data = decrypt(&cipher, &file_contents);
-            std::fs::write(&out_file_path, decrypted_data.expect("Invalid Password")).expect("failed to write file");
+            let decrypted_data = decrypt(&cipher, &file_contents).expect("Invalid Password");
+            std::fs::write(&out_file_path, decrypted_data).expect("failed to write file");
             println!("Decrypted data written to {:#?}", out_file_path);
         }
-        _ => unreachable!(), // If all subcommands are defined above, anything else is unreachabe!()
+        _ => unreachable!(),
     }
-
-    // Continued program logic goes here...
 }

@@ -1,4 +1,4 @@
-use crate::{key::{shift, inv_sub_bytes as inv_sub_bytes_key, Key}, crypt_func::{g_mul, add_round_key}};
+use super::{key::{shift, inv_sub_bytes as inv_sub_bytes_key, Key}, crypt_func::{g_mul, add_round_key}};
 
 pub fn inv_sub_bytes(key: &mut Key) {
     key.apply_all(inv_sub_bytes_key);

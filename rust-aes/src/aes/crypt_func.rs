@@ -1,4 +1,4 @@
-use crate::key::Key;
+use super::key::Key;
 
 pub fn g_mul(mut a: u8, mut b: u8) -> u8 {
     let mut result = 0;
